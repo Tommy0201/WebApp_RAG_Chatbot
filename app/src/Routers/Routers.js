@@ -1,3 +1,4 @@
+import React from 'react';
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import FileUpload from '../pages/FileUpload'; 
 import MainChat from '../pages/MainChat'; 

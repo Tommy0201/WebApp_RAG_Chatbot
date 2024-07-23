@@ -7,15 +7,58 @@ html, body {
 
 /* Style for the file-upload container */
 .file-upload {
-    width: 25%; 
-    height: 800px; 
+    height: 100vh; 
     background-color: #f4c7c4;
     float: left;
-    display: block;
+    display: flex;
+    flex-direction: column; /* Align children vertically */
+    padding: 20px; /* Add some padding */
+    box-sizing: border-box; /* Include padding in width and height */
 }
-.files {
+    /* display: flex; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    /* background-color: #f6e3e3;
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin: 10px 2px */
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f6e3e3;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     margin: 10px 2px;
+  }
+  
+.file-item .namess {
+    flex-grow: 1;
+    max-width: calc(100% - 40px); /* Adjust according to the space needed for the delete button */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    white-space: nowrap; /* Prevent text from wrapping */
 }
+
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    float: right;
+  }
+  
+  .delete-button:hover {
+    color: red;
+  }
+  .delete-button svg {
+    height:100%;
+    width: 20px; /* Set the desired width */
+    max-height: 20px; /* Set the desired height */
+    color: #a83a3a;
+  }
 /* Other existing styles */
 .upload-txt {
     font-size: 18px;
@@ -28,13 +71,22 @@ html, body {
     position: absolute;
     z-index: -1;
 }
-.custom-file-upload {
-    width: 40%;
+.custom-file-upload, .submit-button {
+    width: 100px;
     display: block;
-    margin: auto; /* Center horizontally */
+    /* margin: auto;  */
     border-radius: 5px;
     background-color: black;
     color: white;
     text-align: center; /* Center the text */
     padding: 5px 0; 
 }
+
+.submit-section {
+    margin-block-start: auto;
+  }
+.submit-button {
+    /* width: 60px; */
+    margin: auto;
+}
+  
