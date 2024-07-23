@@ -1,3 +1,40 @@
+html, body {
+    height: 100%;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    background-color:black;
+}
+
+/* Style for the file-upload container */
 .file-upload {
-    color: blue;
+    width: 25%; 
+    height: 800px; 
+    background-color: #f4c7c4;
+    float: left;
+    display: block;
+}
+.files {
+    margin: 10px 2px;
+}
+/* Other existing styles */
+.upload-txt {
+    font-size: 18px;
+}
+
+.hidden-input {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.custom-file-upload {
+    width: 40%;
+    display: block;
+    margin: auto; /* Center horizontally */
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    text-align: center; /* Center the text */
+    padding: 5px 0; 
 }
