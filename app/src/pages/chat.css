@@ -8,6 +8,8 @@
   }
   
   .chat-container {
+    display: flex;
+    flex-direction: column;
     flex: 1; /* Takes up remaining space */
     overflow-y: auto; /* Scrollable if content overflows */
     padding: 10px; /* Optional: Add padding */
@@ -29,6 +31,7 @@
     border: none;
     border-radius: 4px; /* Rounded corners */
     outline: none;
+    font-weight: 500;
   }
 
   .input-bar button {
@@ -37,14 +40,31 @@
     width: 80px;
     padding: 5px 0;
     margin-left: 8px;
-
     background-color: black;
     color: #f4c7c4;
     border-radius: 5px;
     text-align: center;
-    font-weight: bolder;
   }
   
   .input-bar button:hover {
     background-color: #1f1e2400; 
+  }
+
+
+  .message-item {
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    background-color: rgb(56, 55, 55);
+    width: fit-content;
+  }
+
+.user-message {
+    align-self: flex-end;
+    /* text-align: right; */
+  }
+  
+  .bot-message {
+    align-self: flex-start;
+    /* text-align: left; */
   }
