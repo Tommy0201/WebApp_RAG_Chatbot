@@ -68,11 +68,10 @@ html, body {
 .custom-file-upload, .submit-button {
     width: 100px;
     display: block;
-    /* margin: auto;  */
     border-radius: 5px;
     background-color: black;
-    color: white;
-    text-align: center; /* Center the text */
+    color: #f4c7c4;
+    text-align: center; 
     padding: 5px 0; 
 }
 

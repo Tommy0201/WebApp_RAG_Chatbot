@@ -1,0 +1,16 @@
+
+.layout {
+    display: flex;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .file-upload-main {
+    flex: 0 0 25%; /* 40% of the width */
+    background-color: #f0f0f0; /* Optional: Add background color */
+  }
+  
+  .main-chat {
+    flex: 1; /* Takes the remaining width */
+    background-color: black; /* Optional: Add background color */
+  }

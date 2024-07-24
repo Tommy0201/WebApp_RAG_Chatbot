@@ -40,6 +40,7 @@ const FileUpload = () => {
         alert(result.error);
       }
       console.log("Receiving response from backend: ", result);
+      
     } catch (error) {
       console.log("Error trying to send request to backend: ", error);
     }
