@@ -9,11 +9,40 @@ const MainChat = () => {
     setInputMess(event.target.value);
   }
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputMess.trim()) {
-      setMessages([...messages, { sender: 'user', message: inputMess }]);
-      console.log("messages: ",messages)
+      const message = inputMess.trim();
+      setMessages([...messages, { sender: 'user', message: message }]);
+      // console.log("messages: ",messages)
       setInputMess("");
+      if (message) {
+        await botResponse(message);
+      }
+      else {
+        console.log("Sending message is empty!")
+      }
+    }
+  }
+  const botResponse = async (message) => {
+    const host = process.env.REACT_APP_CHOST || "http://localhost";
+    const port = process.env.REACT_APP_CPORT || "8000";
+    var service_uri = `${host}:${port}/chat`;
+    try {
+      const response = await fetch(service_uri, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"message":message})
+      })
+      // console.log("Response from bot: ",response)
+      const botAnswer = await response.json();
+      // console.log("type of botanswer: ",typeof(botAnswer));
+      // console.log("botAnswer: ",botAnswer);
+      setMessages(prevMessages => [...prevMessages,{ sender: 'bot', message: botAnswer.message}])
+    }
+    catch (error) {
+      console.log("Error trying get AI message",error);
     }
   }
 
