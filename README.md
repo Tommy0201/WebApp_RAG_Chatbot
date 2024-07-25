@@ -1,5 +1,9 @@
 
 
+### Setting up the app
+cd app
+yarn install
+
 ### To start running the app
 cd app
 yarn start
