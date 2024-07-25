@@ -21,9 +21,9 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #f6e3e3;
+    background-color: #f9dddd;
     padding: 4px;
-    border: 1px solid #ccc;
+    border: 1.25px solid #a20d0d;
     border-radius: 5px;
     margin: 10px 2px;
   }
@@ -73,6 +73,11 @@ html, body {
     color: #f4c7c4;
     text-align: center; 
     padding: 5px 0; 
+    border:none;
+}
+.custom-file-upload:hover, .submit-button:hover {
+  background-color: rgb(149, 116, 116);
+  color: black;
 }
 
 .submit-section {

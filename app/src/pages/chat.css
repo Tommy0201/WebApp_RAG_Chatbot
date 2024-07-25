@@ -44,10 +44,12 @@
     color: #f4c7c4;
     border-radius: 5px;
     text-align: center;
+    border:none;
   }
   
   .input-bar button:hover {
-    background-color: #1f1e2400; 
+    background-color: rgb(149, 116, 116);
+    color: black;
   }
 
 

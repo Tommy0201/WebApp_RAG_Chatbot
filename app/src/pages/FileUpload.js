@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './upload.css';
-import RemoveIcon from '@mui/icons-material/Remove';
-import ClearIcon from '@mui/icons-material/Clear';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import { ChatContext } from '../utils/ChatContext';
 
-const FileUpload = () => {
+const FileUpload = ({onFileUpload}) => {
+  const { setMessages } = useContext(ChatContext);
   const [files, setFiles] = useState([]);
-  const [maxMessage, setMaxMessage] = useState("");
   const maxFiles = 5;
+  const [hasSubmitted, sethasSubmitted] = useState(false);
 
   const handleFileChange = (event) => {
     const uploadedFiles = Array.from(event.target.files);
@@ -21,6 +21,8 @@ const FileUpload = () => {
   }
 
   const handleSubmit = async () => {
+    if (hasSubmitted) return;
+    sethasSubmitted(true);
     const formData = new FormData();
     files.forEach((file) => {
       formData.append('files', file); // Ensure 'files' matches the backend's expected key
@@ -35,12 +37,11 @@ const FileUpload = () => {
         method: 'POST',
         body: formData,
       });
-      const result = await response.json();
-      if (!response.ok) {
-        alert(result.error);
-      }
-      console.log("Receiving response from backend: ", result);
-      
+      const botIntro = await response.json();
+      console.log("Receiving response from backend: ", botIntro);
+      onFileUpload();
+      setMessages(prevMessages => [...prevMessages, { sender: 'bot', message: botIntro.message }]);
+
     } catch (error) {
       console.log("Error trying to send request to backend: ", error);
     }
@@ -48,31 +49,37 @@ const FileUpload = () => {
 
   return (
     <div className='file-upload'>
-      <h1 className="upload-txt">Upload Your PDF Files</h1> 
 
-      <div className="upload-buttons">
-        <label htmlFor="file-input" className="custom-file-upload">
-          Choose File
-        </label>
-        <input id="file-input" type="file" onChange={handleFileChange} accept="application/pdf" multiple className="hidden-input" disabled={files.length >= maxFiles}/>
-      </div>
-      {files.length > 0 && (
-        <div className="file-uploaded">
-            {files.map((file, index) => (
-              <div key={index} className="file-item">
-                <div className="namess">{file.name}</div>
-                <button className="delete-button" onClick={() => handleDeleteFile(index)}><RemoveCircleOutlineIcon/></button>
-                </div>
-            ))}
-        </div>
-      )}
-      {files.length == maxFiles && (
-        <div className="max-mess">You have reached maximum number of uploaded files allowed</div>
-      )}
+        <h1 className="upload-txt">Upload Your PDF Files</h1> 
 
+        {!hasSubmitted && (
+          <div className="upload-buttons">
+            <label htmlFor="file-input" className="custom-file-upload">Choose File</label>
+            <input id="file-input" type="file" onChange={handleFileChange} accept="application/pdf" multiple className="hidden-input" disabled={files.length >= maxFiles}/>
+          </div>
+        )}
+
+        {files.length > 0 && (
+          <div className="file-uploaded">
+              {files.map((file, index) => (
+                <div key={index} className="file-item">
+                  <div className="namess">{file.name}</div>
+                  {!hasSubmitted && (
+                    <button className="delete-button" onClick={() => handleDeleteFile(index)}><RemoveCircleOutlineIcon/></button>
+                  )}
+                  </div>
+              ))}
+          </div>
+        )}
+
+        {files.length === maxFiles && (
+          <div className="max-mess">You have reached maximum number of uploaded files allowed</div>
+        )}
 
       <div className="submit-section">
-        <button className="submit-button" onClick={handleSubmit}>Submit</button>
+        {files.length > 0 && !hasSubmitted && (
+          <button className="submit-button" onClick={handleSubmit}>Submit</button>
+        )}
       </div>
     </div>
   );
