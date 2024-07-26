@@ -27,7 +27,7 @@ const MainChat = ({showInputBar}) => {
   const botResponse = async (message) => {
     const host = process.env.REACT_APP_CHOST || "http://localhost";
     const port = process.env.REACT_APP_CPORT || "8000";
-    var service_uri = `${host}:${port}/chat`;
+    var service_uri = `${host}:${port}/chat_stream`;
     try {
       const response = await fetch(service_uri, {
         method: 'POST',
@@ -37,10 +37,31 @@ const MainChat = ({showInputBar}) => {
         body: JSON.stringify({"message":message})
       })
       // console.log("Response from bot: ",response)
-      const botAnswer = await response.json();
+      // BEFORE STREAMING IS HERE
+      // const botAnswer = await response.json();
+      // STREAMING START HERE
+      const reader = response.body.getReader();
+      let botMessage = ""
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+  
+        const chunk = new TextDecoder().decode(value);
+        botMessage += chunk;
+        setMessages(prevMessages => {
+          const newMessages = [...prevMessages];
+          if (newMessages.length && newMessages[newMessages.length - 1].sender === 'bot') {
+            newMessages[newMessages.length - 1].message = botMessage;
+          } else {
+            newMessages.push({ sender: 'bot', message: botMessage });
+          }
+          return newMessages;
+        });
+      }
       // console.log("type of botanswer: ",typeof(botAnswer));
       // console.log("botAnswer: ",botAnswer);
-      setMessages(prevMessages => [...prevMessages,{ sender: 'bot', message: botAnswer.message}])
+
+      // setMessages(prevMessages => [...prevMessages,{ sender: 'bot', message: botAnswer.message}])
     }
     catch (error) {
       console.log("Error trying get AI message",error);
