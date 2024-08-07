@@ -14,3 +14,33 @@
     flex: 1; /* Takes the remaining width */
     background-color: black; /* Optional: Add background color */
   }
+  .sessions-list {
+    background-color: bisque;
+  }
+
+  .session-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+  }
+  
+  .session-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .session-item.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }
+  
+  .session-item:focus {
+    outline: 2px solid #007bff;
+    outline-offset: -2px;
+  }

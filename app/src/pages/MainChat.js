@@ -1,10 +1,20 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styles from './chat.css';
 import { ChatContext } from '../utils/ChatContext';
 
-const MainChat = ({showInputBar}) => {
+const MainChat = ({showInputBar, sessionId, sessions, setSessions, setIsBotRespond }) => {
   const [inputMess,setInputMess] = useState("");
   const { messages, setMessages } = useContext(ChatContext);
+
+  const currentSession = Array.isArray(sessions) ? sessions.find(session => session.id === sessionId) : null;
+
+  useEffect(()=> {
+    if (currentSession && currentSession.messages) {
+      setMessages(currentSession.messages);
+    } else {
+      setMessages([]);
+    }
+  }, [sessionId, currentSession, setMessages]);
 
   const handleInputChange = (event) => {
     setInputMess(event.target.value);
@@ -13,18 +23,23 @@ const MainChat = ({showInputBar}) => {
   const handleSendMessage = async () => {
     if (inputMess.trim()) {
       const message = inputMess.trim();
-      setMessages([...messages, { sender: 'user', message: message }]);
-      // console.log("messages: ",messages)
+      const newMessages = [...messages, { sender: 'user', message: message }];
+      updateSessionMessages(sessionId, newMessages);
+      setMessages(newMessages);
       setInputMess("");
-      if (message) {
-        await botResponse(message);
-      }
-      else {
-        console.log("Sending message is empty!")
-      }
+      await botResponse(message);
     }
   }
+
+  const updateSessionMessages = (sessionId, newMessages) => {
+    setSessions(prevSessions => 
+      prevSessions.map(session => 
+        session.id === sessionId ? { ...session, messages: newMessages } : session
+      )
+    );
+  }
   const botResponse = async (message) => {
+    setIsBotRespond(true);
     const host = process.env.REACT_APP_CHOST || "http://localhost";
     const port = process.env.REACT_APP_CPORT || "8000";
     var service_uri = `${host}:${port}/chat_stream`;
@@ -55,16 +70,15 @@ const MainChat = ({showInputBar}) => {
           } else {
             newMessages.push({ sender: 'bot', message: botMessage });
           }
+          updateSessionMessages(sessionId,newMessages);
           return newMessages;
         });
       }
-      // console.log("type of botanswer: ",typeof(botAnswer));
-      // console.log("botAnswer: ",botAnswer);
-
-      // setMessages(prevMessages => [...prevMessages,{ sender: 'bot', message: botAnswer.message}])
     }
     catch (error) {
       console.log("Error trying get AI message",error);
+    } finally {
+      setIsBotRespond(false);
     }
   }
 
