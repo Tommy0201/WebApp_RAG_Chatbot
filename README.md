@@ -1,5 +1,8 @@
 
 
+### Accessing backend
+please go to https://github.com/Tommy0201/RAG_Chatbot to access backend locally
+
 ### Setting up the app
 cd app
 yarn install
