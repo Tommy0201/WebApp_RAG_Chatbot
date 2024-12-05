@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
-import styles from './chat.css';
 import { ChatContext } from '../utils/ChatContext';
+import style from './mainChat.css';
 
 const MainChat = ({showInputBar, sessionId, sessions, setSessions, setIsBotRespond }) => {
   const [inputMess,setInputMess] = useState("");

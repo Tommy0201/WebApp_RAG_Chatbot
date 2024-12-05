@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
-import styles from './upload.css';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { ChatContext } from '../utils/ChatContext';
+import styles from './fileUpload.css';
 
-const FileUpload = ({onFileUpload}) => {
+
+const FileUpload = ({ createNewSession, onFileUpload }) => {
   const { setMessages } = useContext(ChatContext);
   const [files, setFiles] = useState([]);
   const maxFiles = 5;
@@ -24,6 +25,7 @@ const FileUpload = ({onFileUpload}) => {
     if (hasSubmitted) return;
     sethasSubmitted(true);
     const formData = new FormData();
+
     files.forEach((file) => {
       formData.append('files', file); // Ensure 'files' matches the backend's expected key
     });
@@ -39,8 +41,12 @@ const FileUpload = ({onFileUpload}) => {
       });
       const botIntro = await response.json();
       console.log("Receiving response from backend: ", botIntro);
-      onFileUpload();
-      setMessages(prevMessages => [...prevMessages, { sender: 'bot', message: botIntro.message }]);
+      
+      createNewSession(() => {
+        // Once session creation is complete, trigger handleFileUpload
+        onFileUpload(botIntro.message);  
+      }); 
+      // setMessages(prevMessages => [...prevMessages, { sender: 'bot', message: botIntro.message }]);
 
     } catch (error) {
       console.log("Error trying to send request to backend: ", error);
@@ -65,7 +71,9 @@ const FileUpload = ({onFileUpload}) => {
                 <div key={index} className="file-item">
                   <div className="namess">{file.name}</div>
                   {!hasSubmitted && (
-                    <button className="delete-button" onClick={() => handleDeleteFile(index)}><RemoveCircleOutlineIcon/></button>
+                    <button className="delete-button" onClick={() => handleDeleteFile(index)}>
+                      <RemoveCircleOutlineIcon/>
+                      </button>
                   )}
                   </div>
               ))}

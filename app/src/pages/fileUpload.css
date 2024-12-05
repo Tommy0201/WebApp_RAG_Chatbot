@@ -7,34 +7,51 @@ html, body {
 
 /* Style for the file-upload container */
 .file-upload {
-    height: 100vh; 
+    height: 50vh; 
     width: 25vw;
     background-color: #f4c7c4;
     float: left;
     display: flex;
-    flex-direction: column; /* Align children vertically */
-    padding: 100px 20px 200px 20px; /* Add some padding */
-    box-sizing: border-box; /* Include padding in width and height */
+    flex-direction: column; 
+    padding: 5px 2px 10px;
+    box-sizing: border-box; 
+    border: 2px solid black;
+    border-radius: 5px;
 }
 
 .file-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f9dddd;
-    padding: 4px;
-    border: 1.25px solid #a20d0d;
-    border-radius: 5px;
-    margin: 10px 2px;
-  }
-  
-.file-item .namess {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+  .file-item .namess {
     flex-grow: 1;
     max-width: calc(100% - 40px); /* Adjust according to the space needed for the delete button */
-    overflow: hidden; /* Hide overflowing text */
-    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
-    white-space: nowrap; /* Prevent text from wrapping */
-}
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .file-item:hover {
+    background-color: #f0f0f0;
+  }
+
+  .file-item.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }
+
+  .file-item:focus {
+    outline: 2px solid #007bff;
+    outline-offset: -2px;
+  }
 
 .delete-button {
     background: none;
@@ -49,9 +66,9 @@ html, body {
   }
   .delete-button svg {
     height:100%;
-    width: 20px; /* Set the desired width */
-    max-height: 20px; /* Set the desired height */
-    color: #a83a3a;
+    width: 20px; 
+    max-height: 20px; 
+    color: #e57777;
   }
 /* Other existing styles */
 .upload-txt {
@@ -67,12 +84,13 @@ html, body {
 }
 .custom-file-upload, .submit-button {
     width: 100px;
+    font-size: 14px;
     display: block;
     border-radius: 5px;
     background-color: black;
     color: #f4c7c4;
     text-align: center; 
-    padding: 5px 0; 
+    padding: 3px 0; 
     border:none;
 }
 .custom-file-upload:hover, .submit-button:hover {
@@ -84,7 +102,10 @@ html, body {
     margin-block-start: auto;
   }
 .submit-button {
-    /* width: 60px; */
     margin: auto;
+}
+.max-mess {
+  font-style: italic;
+  margin: 10px 0px;
 }
   
