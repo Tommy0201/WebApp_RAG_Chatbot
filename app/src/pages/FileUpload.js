@@ -1,14 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { ChatContext } from '../utils/ChatContext';
 import styles from './fileUpload.css';
 
 
-const FileUpload = ({ createNewSession, onFileUpload }) => {
+const FileUpload = ({ createNewSession, onFileUpload, file }) => {
   const { setMessages } = useContext(ChatContext);
   const [files, setFiles] = useState([]);
   const maxFiles = 5;
   const [hasSubmitted, sethasSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (file) {
+      setFiles([file]); 
+    }
+  }, [file, files]);
 
   const handleFileChange = (event) => {
     const uploadedFiles = Array.from(event.target.files);

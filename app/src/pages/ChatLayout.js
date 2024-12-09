@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import FileUpload from './FileUpload';
 import MainChat from './MainChat';
 import styles from '../Routers/routers.css';
 
 const ChatLayout = () => {
+
+    const { state } = useLocation();
+    const { file } = state || {};
 
     const [sessions,setSessions] = useState([]);
     const [activeSessionId, setActiveSessionId] = useState(null);
@@ -83,6 +87,7 @@ const ChatLayout = () => {
                 <FileUpload 
                   createNewSession={createNewSession} 
                   onFileUpload={handleFileUpload}
+                  file= {file}
                 />
           </div>
           <div className="sessions-container">

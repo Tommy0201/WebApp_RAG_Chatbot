@@ -125,9 +125,16 @@ const ImageUpload = () => {
                     method: 'POST',
                     body: formData,
                 });
-                const confirmMessage = await response.json();
-                console.log("Response message: ",confirmMessage)
-
+                if (response.ok) {
+                    // Convert the PDF response to a Blob and create a URL
+                    const pdfBlob = await response.blob();
+                    const pdfUrl = URL.createObjectURL(pdfBlob);
+    
+                    // Pass the PDF URL and extracted text to the chat page
+                    navigate('/chat', { state: { file: pdfUrl } });
+                } else {
+                    alert('Failed to process the image and generate PDF.');
+                }
             } catch (error) {
                 console.error('Error submitting extracted text to database');
             }
